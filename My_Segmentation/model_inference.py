@@ -14,7 +14,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 # %%
-model = smp.FPN(
+model = smp.UNET(
     encoder_name="resnet18",
     encoder_weights="imagenet",
     classes=6,

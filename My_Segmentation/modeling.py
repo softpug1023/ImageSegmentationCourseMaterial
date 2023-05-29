@@ -24,21 +24,22 @@ val_data_loader = DataLoader(val_ds,batch_size=BS,shuffle=True)
 
 
 # %%
-model = smp.FPN(
+model = smp.Unet(
     encoder_name="resnet18",
     encoder_weights="imagenet",
     classes=6,
-    activation="softmax",
- 
+    activation="sigmoid"
 )
 model.to(DEVICE)
+
+
 # %%
 optimizer = torch.optim.Adam([ 
     dict(params=model.parameters(), lr=0.0001),
 ])
 
 #%% TRAIN MODEL
-criterion = nn.CrossEntropyLoss()
+criterion = nn.BCEWithLogitsLoss()
 # criterion = smp.losses.DiceLoss(mode='multiclass')
 train_losses, val_losses = [], []
 
@@ -86,7 +87,7 @@ for e in range(EPOCHS):
     epoch_time = time.time() - epoch_time
     print(f"Epoch: {e}: Train Loss: {np.median(running_train_loss)}, Val Loss: {np.median(running_val_loss)}, time usage: {epoch_time}")
 total_time = time.time() - start
-print(f"Total time usage: {total_time}")2
+print(f"Total time usage: {total_time}")
 #%% TRAIN LOSS
 sns.lineplot(x = range(len(train_losses)), y= train_losses).set(title='Train Loss')
 plt.show()
