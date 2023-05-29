@@ -1,0 +1,6 @@
+patchify
+ipykernel
+seaborn
+segmentation-models-pytorch
+opencv-python
+torchmetrics
